@@ -22,7 +22,7 @@ epoch = 50
 # beta = 50
 nclasses = 8
 
-for lr in [0.01]:
+for lr in [0.01, 0.005]:
     for beta in [50]:
         num_inputs_list = [2, 3, 4, 11, 21]
         num_inputs_plot_list = [n - 1 for n in num_inputs_list]

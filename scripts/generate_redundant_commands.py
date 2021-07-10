@@ -80,7 +80,7 @@ seeds = range(1)
 for operation, nclass in zip(operations, nclasses):
     for seed in seeds:
         for beta in [0, 5, 15]:
-            command = f"python redundant.py --slow --weight-decay=0.005 --arch={arch} --lr=0.01 --schedule {epoch} -b {beta} --log-name data --nclasses {nclass} --operation {operation} -d {device} --beta_schedule --mode {mode} --num_inputs {num_input} --seed {seed} -l logs/canonical/mode={mode}-operation={operation}-beta{beta}-e{epoch}-seed{seed}"
+            command = f"python redundant.py --slow --weight-decay=0.005 --arch={arch} --lr=0.01 --schedule {epoch} -b {beta} --log-name data --nclasses {nclass} --operation {operation} -d {device} --beta_schedule --mode {mode} --num_inputs {num_input} --seed {seed} -l logs/canonical1/mode={mode}-operation={operation}-beta{beta}-e{epoch}-seed{seed}"
             commands += process_command(command)
 
 #######################################################################################

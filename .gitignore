@@ -1,0 +1,6 @@
+*.pyc
+plots/
+logs/
+data/
+image_test/
+docs/
