@@ -77,36 +77,6 @@ def imshow(image, colormap=False, video=False):
         print (display_image_bytes(s))
 
 
-def get_parameter(model, parameter):
-    result = []
-    if hasattr(model, parameter):
-        result.append(getattr(model, parameter))
-    for l in model.children():
-        result += get_parameter(l, parameter)
-    return result
-
-
-def KL_div2(mu, logsigma, mu1, logsigma1):
-    sigma_2 = logsigma.mul(2).exp_()
-    mu1 = mu1.expand_as(mu)
-    logsigma1 = logsigma1.expand_as(logsigma)
-    sigma1_2 = logsigma1.mul(2).exp_().add(1e-7)
-    return (mu - mu1).pow(2).div(sigma1_2).add_(sigma_2.div(sigma1_2)).mul_(-1).add_(1).add_(logsigma.mul(2)).add_(logsigma1.mul(-2)).mul_(-0.5)
-
-
-def tanh_scale(x, min_val, max_val):
-    d = (max_val - min_val) / 2.
-    y = torch.tanh(x / d) * d + (max_val + min_val) / 2.
-    c = 1. / torch.cosh(x / d)**2
-    return y, c
-
-
-def sigmoid_scale(x, min_val, max_val):
-    d = (max_val - min_val)
-    y = F.sigmoid(x / d) * d + min_val
-    return y
-
-
 class AverageMeter(object):
     """Computes and stores the average and current value"""
 
@@ -176,53 +146,6 @@ def set_batchnorm_mode(model, train=True):
             model.eval()
     for l in model.children():
         set_norm(l, train=train)
-
-
-def call_on_model(model, name, *args, **kwargs):
-    results = []
-    if hasattr(model, name):
-        results += [getattr(model, name)(*args, **kwargs)]
-    for l in model.children():
-        results += call_on_model(l, name, *args, **kwargs)
-    return results
-
-
-def print_sigma(model):
-    if hasattr(model, 'logsigma'):
-        print (model.logsigma.data.exp().mean() / model.prior_sigma)
-    for l in model.children():
-        print_sigma(l)
-
-
-def _collect_kl(model, mean=False):
-    r = []
-    if hasattr(model, 'logsigma'):
-        if mean:
-            r += [model._kl(model.net_conv.weight, model.logsigma).data.mean()]
-        else:
-            r += [model._kl(model.net_conv.weight, model.logsigma).data.sum()]
-    for l in model.children():
-        r += _collect_kl(l, mean=mean)
-    return r
-
-
-def _collect_gradient(model, logsigma=False):
-    r = []
-    if hasattr(model, 'logsigma'):
-        if not logsigma:
-            r += [model.net_conv.weight.grad.data.abs().mean()]
-        else:
-            r += [model.logsigma.grad.data.abs().mean()]
-    for l in model.children():
-        r += _collect_gradient(l, logsigma=logsigma)
-    return r
-
-
-def set_parameter(model, parameter, value):
-    if hasattr(model, parameter):
-        setattr(model, parameter, value)
-    for l in model.children():
-        set_parameter(l, parameter, value)
 
 
 def interpolate(t0, t, T, v_initial=0., v_final=1.):
