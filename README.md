@@ -2,15 +2,7 @@
 
 ## What is this?
 
-A method to approximate the "redundant information", the component of information shared by a set of sources about a target.
-
-## Requirements
-
-- python 3.6+
-- torch
-- torchvision
-- scipy
-- seaborn (for plotting)
+A method to approximate the "redundant information", the component of information shared by a set of sources about a target. This repostiory contains our implementation of the paper: [**Redundant Information Neural Estimation**](https://doi.org/10.3390/e23070922).
 
 ## Quick Start
 
@@ -30,5 +22,13 @@ These commands (and the others used in the paper) are generated in `scripts/gene
 
 1. Create a new dataloader (similar to what is done in `cifar_redundant_data.py`, `data_toy.py`, and `data_neural.py`).
 
-This is a (cleaned) version of the codebase to accompaning the paper: https://openreview.net/forum?id=2MYADuf2o1b. Please reach out to michael.kleinman@ucla.edu if you have comments or questions.
+## Requirements
+
+- python 3.6+
+- torch
+- torchvision
+- scipy
+- seaborn (for plotting)
+
+Please reach out to michael.kleinman@ucla.edu if you have comments or questions.
 
